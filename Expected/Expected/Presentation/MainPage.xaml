@@ -1,0 +1,42 @@
+﻿<Page x:Class="Expected.Presentation.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:Expected.Presentation"
+      xmlns:mvux="using:Uno.Extensions.Reactive.UI"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    
+    <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+        <mvux:FeedView Source="{Binding CurrentWeather}"
+                       x:Name="WeatherFeedView">
+            <mvux:FeedView.ValueTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <Run Text="Current temperature: " />
+                        <Run Text="{Binding Data.Temperature}" />
+                    </TextBlock>
+                </DataTemplate>
+            </mvux:FeedView.ValueTemplate>
+            <mvux:FeedView.ProgressTemplate>
+                <DataTemplate>
+                    <ProgressRing />
+                </DataTemplate>
+            </mvux:FeedView.ProgressTemplate>
+            <mvux:FeedView.ErrorTemplate>
+                <DataTemplate>
+                    <TextBlock Text="Error" />
+                </DataTemplate>
+            </mvux:FeedView.ErrorTemplate>
+            <mvux:FeedView.NoneTemplate>
+                <DataTemplate>
+                    <TextBlock Text="No Results" />
+                </DataTemplate>
+            </mvux:FeedView.NoneTemplate>
+        </mvux:FeedView>
+        
+        <Button Content="Get Weather"
+                Command="{Binding Refresh, ElementName=WeatherFeedView}" />
+        
+    </StackPanel>
+</Page>

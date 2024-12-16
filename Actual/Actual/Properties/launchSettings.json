@@ -1,0 +1,31 @@
+{
+  "profiles": {
+    "Actual (WinAppSDK Unpackaged)": {
+      "commandName": "Project",
+      "compatibleTargetFramework": "windows"
+    },
+    "Actual (WinAppSDK Packaged)": {
+      "commandName": "MsixPackage",
+      "compatibleTargetFramework": "windows"
+    },
+    "Actual (Desktop)": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\Jorge\\Desktop\\Projects\\pto_cruz.svg",
+      "compatibleTargetFramework": "desktop"
+    },
+    "Actual (Desktop WSL2)": {
+      "commandName": "WSL2",
+      "commandLineArgs": "{ProjectDir}/bin/Debug/net8.0-desktop/Actual.dll",
+      "distributionName": "",
+      "compatibleTargetFramework": "desktop"
+    }
+  },
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:8080",
+      "sslPort": 0
+    }
+  }
+}
