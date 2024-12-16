@@ -162,7 +162,7 @@ Dentro de la carpeta `/Actual` se encuentra el proyecto en su estado actual con 
   }
   ```
 
-https://github.com/user-attachments/assets/cd6294d7-319d-4ce0-bb18-b0e62b4410d7
+https://github.com/user-attachments/assets/4cf3d076-cb84-4862-a259-f58df6897659
 
 ## Diseño esperado - `/Expected`
 
