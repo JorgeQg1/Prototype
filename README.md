@@ -295,9 +295,13 @@ El problema es el siguiente:
   - Descargarme los [datos](https://opendata.sitcan.es/dataset/base-topografica-5000-20042006) en formato SpatialLite.
   - Abrirlos en QGIS arrastrando el archivo 074_C05_TF.sqlite a las capas y abriendo solo la capa de las lineas.
   - Una vez haya cargado todo iremos a 'Proyecto > Nueva composicion de impresion...' o 'Control+P', añadiremos un nombre a nuestra impresion y se abrira la siguiente ventana:
+
 https://github.com/user-attachments/assets/756eb974-c73d-40d9-8de4-5be9cc0ecacc
   - Ahora dentro de esta ventana le daremos a la herramienta 'Añadir Mapa' a la izquierda y acto seguido click a la esquina superior izquierda del lienzo. Esto pintara la capa de las lineas:
+
 https://github.com/user-attachments/assets/fd80b5c0-d569-44b0-886f-98da4b3e4c5a
   - Ajustamos en las propiedades (panel de la derecha) la escala a la que se hara la impresion y le damos a 'Diseño > Exportar como SVG...' teniendo en cuenta las opciones marcadas en el video:
+
 https://github.com/user-attachments/assets/c7e6b2bf-52ce-4106-a3b2-f10ac4820a16
+
   [Este](tenerife.svg) es el fichero extraido.
