@@ -1,6 +1,6 @@
 ﻿# Using Uno Platform with MVUX and Skia
 
-## Prototipo actual - `/Actual`
+## Prototipo actual - [`/Actual`](Actual/)
 
 Dentro de la carpeta [`/Actual`](Actual/) se encuentra el proyecto en su estado actual con las siguientes funcionalidades:
 
@@ -164,12 +164,21 @@ Dentro de la carpeta [`/Actual`](Actual/) se encuentra el proyecto en su estado 
 
 https://github.com/user-attachments/assets/4cf3d076-cb84-4862-a259-f58df6897659
 
-## Diseño esperado - `/Expected`
+## Diseño esperado - [`/Expected`](Expected/)
 
-El objetivo seria hacer uso del entorno proporcionado por Uno Platform para dividir el codigo en los componentes indicados en su [tutorial de MVUX]([Actual/Actual/MainPage.xaml.cs](https://platform.uno/docs/articles/external/uno.extensions/doc/Learn/Mvux/Overview.html?tabs=viewmodel%2Cmodel)).
+El objetivo seria hacer uso del entorno proporcionado por Uno Platform para dividir el codigo en los componentes indicados en su [tutorial de MVUX](https://platform.uno/docs/articles/external/uno.extensions/doc/Learn/Mvux/Overview.html?tabs=viewmodel%2Cmodel).
 
-- Dentro de la carpeta `/Expected/Expected/Presentation` tenemos el MainPage.
-  Vinculamos el DataContext al modelo MainViewModel generado a partir de MainModel:
+- Dentro de la carpeta [`/Expected/Expected/Presentation`](Expected/Expected/Presentation) tenemos el [`MainModel`](Expected/Expected/Presentation/MainModel.cs).
+  En este ejemplo el MainModel tiene una propiedad usada para obtener la temperatura actual proporcionada por WeatherService.
+  ```cs
+  public partial record MainModel(WeatherService WeatherService)
+  {
+    public IFeed<WeatherInfo> CurrentWeather => Feed.Async(this.WeatherService.GetCurrentWeather);
+  }
+  ```
+
+- Dentro de la carpeta [`/Expected/Expected/Presentation`](Expected/Expected/Presentation) tenemos el MainPage.
+  En el archivo [`/Expected/Expected/Presentation/MainPage.xaml.cs`](Expected/Expected/Presentation/MainPage.xaml.cs) vinculamos el DataContext al modelo MainViewModel generado a partir de [MainModel](Expected/Expected/Presentation/MainModel.cs):
   ```cs
   public sealed partial class MainPage : Page
   {
@@ -180,12 +189,113 @@ El objetivo seria hacer uso del entorno proporcionado por Uno Platform para divi
     }
   }
   ```
-  Y en el archivo `/Expected/Expected/Presentation/MainPage.xaml`
-- Dentro de la carpeta `/Expected/Expected/Presentation` tenemos el MainModel.
-  En este ejemplo el MainModel tiene una propiedad usada para obtener la temperatura actual proporcionada por WeatherService.
+  Y en el archivo [`/Expected/Expected/Presentation/MainPage.xaml`](Expected/Expected/Presentation/MainPage.xaml) añadimos un FeedView el cual estara vinculado a nuestra propiedad:
+  ```
+  <mvux:FeedView Source="{Binding CurrentWeather}" x:Name="WeatherFeedView">
+    <mvux:FeedView.ValueTemplate>
+      <DataTemplate>
+        <TextBlock>
+          <Run Text="Current temperature: " />
+          <Run Text="{Binding Data.Temperature}" />
+        </TextBlock>
+      </DataTemplate>
+    </mvux:FeedView.ValueTemplate>
+    <mvux:FeedView.ProgressTemplate>
+      <DataTemplate>
+        <ProgressRing />
+      </DataTemplate>
+    </mvux:FeedView.ProgressTemplate>
+    <mvux:FeedView.ErrorTemplate>
+      <DataTemplate>
+        <TextBlock Text="Error" />
+      </DataTemplate>
+    </mvux:FeedView.ErrorTemplate>
+    <mvux:FeedView.NoneTemplate>
+      <DataTemplate>
+        <TextBlock Text="No Results" />
+      </DataTemplate>
+    </mvux:FeedView.NoneTemplate>
+  </mvux:FeedView>
+  ```
+- El servicio [`/Expected/Expected/Services/WeatherService.cs`](Expected/Expected/Services/WeatherService.cs) es el encargado de suministrar los datos que en este caso son de tipo WeatherInfo:
   ```cs
-  public partial record MainModel(WeatherService WeatherService)
+  public partial record WeatherInfo(int Temperature);
+
+  public interface IWeatherService
   {
-    public IFeed<WeatherInfo> CurrentWeather => Feed.Async(this.WeatherService.GetCurrentWeather);
+    ValueTask<WeatherInfo> GetCurrentWeather(CancellationToken ct);
+  }
+
+  public class WeatherService : IWeatherService
+  {
+    public async ValueTask<WeatherInfo> GetCurrentWeather(CancellationToken ct)
+    {
+      await Task.Delay(TimeSpan.FromSeconds(1), ct);
+      return new WeatherInfo(new Random().Next(-40, 40));
+    }
   }
   ```
+
+## Problematica
+El problema es el siguiente:
+- En el ejemplo se usa un boton para accionar el refresco, en mi caso el refresco se realiza dentro del propio canvas por medio de eventos alcanzados en el canvas.
+- En el ejemplo se vincula un simple texto, en mi caso deberia ¿vincular el SKXamlCanvas? ¿crear una clase hija de SKXamlCanvas?
+
+## Beneficios
+- Como indica en el [tutorial de MVUX](https://platform.uno/docs/articles/external/uno.extensions/doc/Learn/Mvux/Overview.html?tabs=viewmodel%2Cmodel) si no existiera el fichero podria indicar algun error gracias al codigo establecido en el xaml:
+  ```
+  <mvux:FeedView.ValueTemplate>
+        <DataTemplate>
+          <TextBlock>
+            <Run Text="Current temperature: " />
+            <Run Text="{Binding Data.Temperature}" />
+          </TextBlock>
+        </DataTemplate>
+      </mvux:FeedView.ValueTemplate>
+      <mvux:FeedView.ProgressTemplate>
+        <DataTemplate>
+          <ProgressRing />
+        </DataTemplate>
+      </mvux:FeedView.ProgressTemplate>
+      <mvux:FeedView.ErrorTemplate>
+        <DataTemplate>
+          <TextBlock Text="Error" />
+        </DataTemplate>
+      </mvux:FeedView.ErrorTemplate>
+  ```
+- Se podria establecer esperas para renderizar el canvas vinculando propiedades como se indica en el [tutorial de MVUX](https://platform.uno/docs/articles/external/uno.extensions/doc/Learn/Mvux/Overview.html?tabs=viewmodel%2Cmodel). Por ejemplo, si no se ha indicado el fichero .svg de la siguiente manera:
+  ```cs
+  public partial record MainModel(IWeatherService WeatherService)
+  {
+    public IState<string> City => State<string>.Empty(this);
+
+    public IFeed<WeatherInfo> CurrentWeather => Feed.Async(async ct =>
+    {
+      var city = await City;
+      if (city is not null)
+      {
+        return await this.WeatherService.GetCurrentWeather(city, ct);
+      }
+      return default;
+    });
+  }
+  ```
+  Y vinculando City a un TextBox:
+  ```
+  <TextBox Text="{Binding City, Mode=TwoWay}" />
+  ```
+
+## Dudas
+
+- A la hora de usar SKXamlCanvas y SkiaSharp.Svg: ¿Habrán problemas a la hora de generar la solucion para android o algun sistema operativo?
+- Para hacer zoom estoy usando la rueda del raton pero no esta soportado por Uno por obvias razones (en dispositivos mobiles no hay rueda). ¿Deberia usar otro control o no pensar en dispositivos mobiles?
+- Exportar .svg desde QGIS.
+  El proceso que he seguido para extraer los archivos .svg es el siguiente:
+    - 1- Descargarme los [datos](https://opendata.sitcan.es/dataset/base-topografica-5000-20042006) en formato SpatialLite.
+    - 2- Abrirlos en QGIS arrastrando el archivo 074_C05_TF.sqlite a las capas y abriendo solo la capa de las lineas.
+    - 3- Una vez haya cargado todo iremos a 'Proyecto > Nueva composicion de impresion...' o 'Control+P', añadiremos un nombre a nuestra impresion y se abrira la siguiente ventana:
+
+    - 4- Ahora dentro de esta ventana le daremos a la herramienta 'Añadir Mapa' a la izquierda y acto seguido click a la esquina superior izquierda del lienzo. Esto pintara la capa de las lineas:
+    
+    - 5- Ajustamos en las propiedades (panel de la derecha) la escala a la que se hara la impresion y le damos a 'Diseño > Exportar como SVG...' teniendo en cuenta las opciones marcadas en el video:
+    
