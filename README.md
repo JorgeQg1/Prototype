@@ -2,7 +2,7 @@
 
 ## Prototipo actual - `/Actual`
 
-Dentro de la carpeta `/Actual` se encuentra el proyecto en su estado actual con las siguientes funcionalidades:
+Dentro de la carpeta [`/Actual`](Actual/) se encuentra el proyecto en su estado actual con las siguientes funcionalidades:
 
 - Se ejecuta pasando como parametro el archivo .svg que se desea visualizar y se lee el archivo usando SkiaSharp.Svg (el cual ha sido importado en el proyecto).
   Constructor de `MainPage`. Fichero [`/Actual/Actual/MainPage.xaml.cs`](Actual/Actual/MainPage.xaml.cs):
@@ -39,7 +39,7 @@ Dentro de la carpeta `/Actual` se encuentra el proyecto en su estado actual con 
                         PaintSurface="OnPaintSurface"/>
     </Border>
   ```
-  Y creamos la funcion `OnPaintSurface` en el archivo `/Actual/Actual/MainPage.xaml.cs`:
+  Y creamos la funcion `OnPaintSurface` en el archivo [`/Actual/Actual/MainPage.xaml.cs`](Actual/Actual/MainPage.xaml.cs):
   ```cs
   private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
   {
@@ -83,14 +83,14 @@ Dentro de la carpeta `/Actual` se encuentra el proyecto en su estado actual con 
   }
   ```
 - Se hace zoom gracias al codigo anterior y a la funcion `PointerWheelChanged` del `SKXamlCanvas`:
-  Actualizamos en el archivo `/Actual/Actual/MainPage.xaml` el `SKXamlCanvas`:
+  Actualizamos en el archivo [`/Actual/Actual/MainPage.xaml`](Actual/Actual/MainPage.xaml) el `SKXamlCanvas`:
   ```
   <sk:SKXamlCanvas x:Name="canvas"
                              
                              PaintSurface="OnPaintSurface"
                              PointerWheelChanged="OnSurfacePointerWheelChanged" />
   ```
-  Y añadimos la funcion `OnSurfacePointerWheelChanged` en el archivo `/Actual/Actual/MainPage.xaml.cs`:
+  Y añadimos la funcion `OnSurfacePointerWheelChanged` en el archivo [`/Actual/Actual/MainPage.xaml.cs`](Actual/Actual/MainPage.xaml.cs):
   ```cs
   private void OnSurfacePointerWheelChanged(object sender, PointerRoutedEventArgs e)
   {
@@ -111,7 +111,7 @@ Dentro de la carpeta `/Actual` se encuentra el proyecto en su estado actual con 
   ```
 
 - Se mueve la imagen aprentando y arrastrando gracias al uso de la funcion `PointerPressed`, `PointerMoved` y `PointerReleased` del `SKXamlCanvas`:
-  Actualizamos en el archivo `/Actual/Actual/MainPage.xaml` el `SKXamlCanvas`:
+  Actualizamos en el archivo [`/Actual/Actual/MainPage.xaml`](Actual/Actual/MainPage.xaml) el `SKXamlCanvas`:
   ```
   <sk:SKXamlCanvas x:Name="canvas"
                              
@@ -121,7 +121,7 @@ Dentro de la carpeta `/Actual` se encuentra el proyecto en su estado actual con 
                              PointerReleased="OnSurfacePointerReleased"
                              PointerWheelChanged="OnSurfacePointerWheelChanged" />
   ```
-  Y añadimos las funciones `OnSurfacePointerMoved`, `OnSurfacePointerPressed` y `OnSurfacePointerReleased` en el archivo `/Actual/Actual/MainPage.xaml.cs`:
+  Y añadimos las funciones `OnSurfacePointerMoved`, `OnSurfacePointerPressed` y `OnSurfacePointerReleased` en el archivo [`/Actual/Actual/MainPage.xaml.cs`](Actual/Actual/MainPage.xaml.cs):
   ```cs
   private void OnSurfacePointerPressed(object sender, PointerRoutedEventArgs e)
   {
@@ -166,7 +166,7 @@ https://github.com/user-attachments/assets/4cf3d076-cb84-4862-a259-f58df6897659
 
 ## Diseño esperado - `/Expected`
 
-El objetivo seria hacer uso del entorno proporcionado por Uno Platform para dividir el codigo en los componentes indicados en su `tutorial de MVUX`.
+El objetivo seria hacer uso del entorno proporcionado por Uno Platform para dividir el codigo en los componentes indicados en su [tutorial de MVUX]([Actual/Actual/MainPage.xaml.cs](https://platform.uno/docs/articles/external/uno.extensions/doc/Learn/Mvux/Overview.html?tabs=viewmodel%2Cmodel)).
 
 - Dentro de la carpeta `/Expected/Expected/Presentation` tenemos el MainPage.
   Vinculamos el DataContext al modelo MainViewModel generado a partir de MainModel:
