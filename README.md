@@ -5,7 +5,7 @@
 Dentro de la carpeta `/Actual` se encuentra el proyecto en su estado actual con las siguientes funcionalidades:
 
 - Se ejecuta pasando como parametro el archivo .svg que se desea visualizar y se lee el archivo usando SkiaSharp.Svg (el cual ha sido importado en el proyecto).
-  Constructor de `MainPage`. Fichero `/Actual/Actual/MainPage.xaml.cs`:
+  Constructor de `MainPage`. Fichero [`/Actual/Actual/MainPage.xaml.cs`](Actual/Actual/MainPage.xaml.cs):
   ```cs
   public MainPage()
   {
@@ -26,7 +26,7 @@ Dentro de la carpeta `/Actual` se encuentra el proyecto en su estado actual con 
   ```
 
 - Se renderiza la imagen dentro de un SKXamlCanvas usando la funcion PaintSurface que se ejecuta cada vez que se refresca el canvas:
-  Insertamos en el archivo `/Actual/Actual/MainPage.xaml` el canvas:
+  Insertamos en el archivo [`/Actual/Actual/MainPage.xaml`](Actual/Actual/MainPage.xaml) el canvas:
   ```xaml
   <!-- Canvas con borde decorativo -->
     <Border Grid.Column="0"
@@ -166,3 +166,26 @@ https://github.com/user-attachments/assets/4cf3d076-cb84-4862-a259-f58df6897659
 
 ## Diseño esperado - `/Expected`
 
+El objetivo seria hacer uso del entorno proporcionado por Uno Platform para dividir el codigo en los componentes indicados en su `tutorial de MVUX`.
+
+- Dentro de la carpeta `/Expected/Expected/Presentation` tenemos el MainPage.
+  Vinculamos el DataContext al modelo MainViewModel generado a partir de MainModel:
+  ```cs
+  public sealed partial class MainPage : Page
+  {
+    public MainPage()
+    {
+      this.InitializeComponent();
+      DataContext = new MainViewModel(new WeatherService());
+    }
+  }
+  ```
+  Y en el archivo `/Expected/Expected/Presentation/MainPage.xaml`
+- Dentro de la carpeta `/Expected/Expected/Presentation` tenemos el MainModel.
+  En este ejemplo el MainModel tiene una propiedad usada para obtener la temperatura actual proporcionada por WeatherService.
+  ```cs
+  public partial record MainModel(WeatherService WeatherService)
+  {
+    public IFeed<WeatherInfo> CurrentWeather => Feed.Async(this.WeatherService.GetCurrentWeather);
+  }
+  ```

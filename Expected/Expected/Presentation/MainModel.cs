@@ -1,6 +1,7 @@
 using Expected.Services;
 
 namespace Expected.Presentation;
+
 public partial record MainModel(WeatherService WeatherService)
 {
     public IFeed<WeatherInfo> CurrentWeather => Feed.Async(this.WeatherService.GetCurrentWeather);
