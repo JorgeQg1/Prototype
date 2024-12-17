@@ -309,13 +309,13 @@ https://github.com/user-attachments/assets/c7e6b2bf-52ce-4106-a3b2-f10ac4820a16
 ## Cambiar sistema de coordenadas de un proyecto y capas en QGIS.
   - 1: Abriremos QGIS y arrastramos nuestras capas:
 
-
+https://github.com/user-attachments/assets/b2708954-b32d-494b-9ccd-f1554fac3645
   - 2: Cambiaremos el SRC del proyecto a EPSG:4326 - WGS 84. Proyecto > Propiedades > SRC, buscaremos EPSG:4326 - WGS 84 y Aceptar:
 
-
+https://github.com/user-attachments/assets/0c577705-0588-491e-a54d-e054e7b2f3bb
   - 3: Reproyectar cada capa a EPSG:4326. Click derecho sobre cada capa y: Exportar > Guardar como: "Formato: GeoPackage", "SRC: EPSG:4326 - WGS 84", añadimos nombre a la capa y seleccionamos "Añadir archivo guardado al mapa". Aceptar para guardar la nueva capa reproyectada.
 
-
+https://github.com/user-attachments/assets/44e02f68-d371-4769-b382-cd16c2639e49
   - 4: Cambiar la visualizacion de las coordenadas: Proyecto > Propiedades del Proyecto > General > Visualizacion de coordenadas y rumbo > Coordinate Format > Grados, Minutos y Segundos > Aceptar
 
-
+https://github.com/user-attachments/assets/626e9376-5903-4332-b2c0-a42fdc842d2a
