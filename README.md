@@ -304,12 +304,12 @@ https://github.com/user-attachments/assets/fd80b5c0-d569-44b0-886f-98da4b3e4c5a
 
 https://github.com/user-attachments/assets/c7e6b2bf-52ce-4106-a3b2-f10ac4820a16
 
-  [Este](tenerife.svg) es el fichero extraido.
+  [Este](QGIS/tenerife.svg) es el fichero extraido.
 
 ## Cambiar sistema de coordenadas de un proyecto y capas en QGIS.
   - 1: Abriremos QGIS y arrastramos nuestras capas:
 
-  
+
   - 2: Cambiaremos el SRC del proyecto a EPSG:4326 - WGS 84. Proyecto > Propiedades > SRC, buscaremos EPSG:4326 - WGS 84 y Aceptar:
 
 
@@ -317,3 +317,5 @@ https://github.com/user-attachments/assets/c7e6b2bf-52ce-4106-a3b2-f10ac4820a16
 
 
   - 4: Cambiar la visualizacion de las coordenadas: Proyecto > Propiedades del Proyecto > General > Visualizacion de coordenadas y rumbo > Coordinate Format > Grados, Minutos y Segundos > Aceptar
+
+
