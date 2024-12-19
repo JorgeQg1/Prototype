@@ -31,3 +31,41 @@
   - using Microsoft.UI.Xaml.Controls.Primitives;
   - using Microsoft.UI.Xaml.Input;
 - Ejecutamos y tenemos un programa que se conecta de forma online a OpenStreetMap. Falta investigar con los .mbtiles o primero con las carpetas indexadas con xyz.
+
+## Hacemos prueba con contenido en local
+
+- Agregamos una carpeta MBTiles a la carpeta Assets y metemos ahi nuestros archivos .mbtiles
+
+- Añadimos el siguiente codigo:
+```cs
+public sealed partial class MainPage : Page
+{
+    public MainPage()
+    {
+        this.InitializeComponent();
+
+        MyMap.Map = CreateMap();
+    }
+
+    public static Map CreateMap()
+    {
+        var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Projects\\PruebaMapsui\\PruebaMapsui\\Assets\\MBTiles", "world.mbtiles");
+        var map = new Map();
+        map.Layers.Add(CreateMbTilesLayer(filePath, "world"));
+        return map;
+    }
+
+    public static ILayer CreateMbTilesLayer(string path, string name)
+    {
+        // Crear la capa del mapa a partir del archivo .mbtiles
+        var mbTilesTileSource = new MbTilesTileSource(new SQLiteConnectionString(path, true));
+        var mbTilesLayer = new TileLayer(mbTilesTileSource) { Name = name };
+        return mbTilesLayer;
+    }
+}
+```
+- Click derecho encima del proyecto > Administrar Paquetes NuGet... > Examinar > SQLite
+- Instalamos el paquete
+- Click derecho encima del proyecto > Administrar Paquetes NuGet... > Examinar > BruTile.MbTiles
+- Instalamos el paquete
+- QUIZAS TAMBIEN HACE FALTA INSTALAR: Mapsui
